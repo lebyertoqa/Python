@@ -58,5 +58,6 @@ def test_fibonacci_sequence_negative() -> None:
 
 
 def test_both_implementations_agree() -> None:
-    for n in range(30):
+    # Extended range to 50 for more thorough coverage
+    for n in range(50):
         assert fibonacci_recursive(n) == fibonacci_iterative(n)
