@@ -1,109 +1,106 @@
-import math
-from collections.abc import Generator
+"""Prime number algorithms.
+
+This module provides functions for working with prime numbers, including
+checking primality and generating primes up to a given limit.
+"""
 
 
-def slow_primes(max_n: int) -> Generator[int]:
+def is_prime(n: int) -> bool:
+    """Check if a number is prime.
+
+    Args:
+        n: The number to check.
+
+    Returns:
+        True if n is prime, False otherwise.
+
+    Raises:
+        ValueError: If n is negative.
+
+    Examples:
+        >>> is_prime(2)
+        True
+        >>> is_prime(17)
+        True
+        >>> is_prime(1)
+        False
+        >>> is_prime(4)
+        False
+        >>> is_prime(0)
+        False
     """
-    Return a list of all primes numbers up to max.
-    >>> list(slow_primes(0))
-    []
-    >>> list(slow_primes(-1))
-    []
-    >>> list(slow_primes(-10))
-    []
-    >>> list(slow_primes(25))
-    [2, 3, 5, 7, 11, 13, 17, 19, 23]
-    >>> list(slow_primes(11))
-    [2, 3, 5, 7, 11]
-    >>> list(slow_primes(33))
-    [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31]
-    >>> list(slow_primes(1000))[-1]
-    997
-    """
-    numbers: Generator = (i for i in range(1, (max_n + 1)))
-    for i in (n for n in numbers if n > 1):
-        for j in range(2, i):
-            if (i % j) == 0:
-                break
-        else:
-            yield i
+    if n < 0:
+        raise ValueError(f"is_prime() does not accept negative integers, got {n}")
+    if n < 2:
+        return False
+    if n == 2:
+        return True
+    if n % 2 == 0:
+        return False
+    for i in range(3, int(n**0.5) + 1, 2):
+        if n % i == 0:
+            return False
+    return True
 
 
-def primes(max_n: int) -> Generator[int]:
+def sieve_of_eratosthenes(limit: int) -> list[int]:
+    """Generate all prime numbers up to and including limit>>> sieve_of_eratosthenes(1)
+        []
+        >>> sieve_of_eratosthenes(2)
+        [2]
     """
-    Return a list of all primes numbers up to max.
-    >>> list(primes(0))
-    []
-    >>> list(primes(-1))
-    []
-    >>> list(primes(-10))
-    []
-    >>> list(primes(25))
-    [2, 3, 5, 7, 11, 13, 17, 19, 23]
-    >>> list(primes(11))
-    [2, 3, 5, 7, 11]
-    >>> list(primes(33))
-    [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31]
-    >>> list(primes(1000))[-1]
-    997
-    """
-    numbers: Generator = (i for i in range(1, (max_n + 1)))
-    for i in (n for n in numbers if n > 1):
-        # only need to check for factors up to sqrt(i)
-        bound = int(math.sqrt(i)) + 1
-        for j in range(2, bound):
-            if (i % j) == 0:
-                break
-        else:
-            yield i
+    if limit < 0:
+        raise ValueError(f"sieve_of_eratosthenes() does not accept negative integers, got {limit}")
+    if limit < 2:
+        return []
+
+    is_prime_arr = [True] * (limit + 1)
+    is_prime_arr[0] = False
+    is_prime_arr[1] = False
+
+    for i in range(2, int(limit**0.5) + 1):
+        if is_prime_arr[i]:
+            for j in range(i * i, limit + 1, i):
+                is_prime_arr[j] = False
+
+    return [i for i, prime in enumerate(is_prime_arr) if prime]
 
 
-def fast_primes(max_n: int) -> Generator[int]:
-    """
-    Return a list of all primes numbers up to max.
-    >>> list(fast_primes(0))
-    []
-    >>> list(fast_primes(-1))
-    []
-    >>> list(fast_primes(-10))
-    []
-    >>> list(fast_primes(25))
-    [2, 3, 5, 7, 11, 13, 17, 19, 23]
-    >>> list(fast_primes(11))
-    [2, 3, 5, 7, 11]
-    >>> list(fast_primes(33))
-    [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31]
-    >>> list(fast_primes(1000))[-1]
-    997
-    """
-    numbers: Generator = (i for i in range(1, (max_n + 1), 2))
-    # It's useless to test even numbers as they will not be prime
-    if max_n > 2:
-        yield 2  # Because 2 will not be tested, it's necessary to yield it now
-    for i in (n for n in numbers if n > 1):
-        bound = int(math.sqrt(i)) + 1
-        for j in range(3, bound, 2):
-            # As we removed the even numbers, we don't need them now
-            if (i % j) == 0:
-                break
-        else:
-            yield i
+def prime_factors(n: int) -> list[int]:
+    """Return the prime factorization of n as a list of prime factors.
 
+    Args:
+        n: The number to factorize. Must be greater than 1.
 
-def benchmark():
-    """
-    Let's benchmark our functions side-by-side...
-    """
-    from timeit import timeit
+    Returns:
+        A sorted list of prime factors (with repetition).
 
-    setup = "from __main__ import slow_primes, primes, fast_primes"
-    print(timeit("slow_primes(1_000_000_000_000)", setup=setup, number=1_000_000))
-    print(timeit("primes(1_000_000_000_000)", setup=setup, number=1_000_000))
-    print(timeit("fast_primes(1_000_000_000_000)", setup=setup, number=1_000_000))
+    Raises:
+        ValueError: If n is less than 2.
+
+    Examples:
+        >>> prime_factors(12)
+        [2, 2, 3]
+        >>> prime_factors(17)
+        [17]
+        >>> prime_factors(100)
+        [2, 2, 5, 5]
+    """
+    if n < 2:
+        raise ValueError(f"prime_factors() requires an integer >= 2, got {n}")
+
+    factors = []
+    d = 2
+    while d * d <= n:
+        while n % d == 0:
+            factors.append(d)
+            n //= d
+        d += 1
+    if n > 1:
+        factors.append(n)
+    return factors
 
 
 if __name__ == "__main__":
-    number = int(input("Calculate primes up to:\n>> ").strip())
-    for ret in primes(number):
-        print(ret)
-    benchmark()
+    import doctest
+    doctest.testmod()
