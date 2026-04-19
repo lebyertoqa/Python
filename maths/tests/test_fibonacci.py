@@ -67,3 +67,10 @@ def test_fibonacci_large_value() -> None:
     # Sanity check a known large Fibonacci number (F(20) = 6765)
     assert fibonacci_iterative(20) == 6765
     assert fibonacci_recursive(20) == 6765
+
+
+def test_fibonacci_known_values() -> None:
+    # A few additional well-known Fibonacci numbers I like to double-check
+    # F(30) = 832040, F(40) = 102334155
+    assert fibonacci_iterative(30) == 832040
+    assert fibonacci_iterative(40) == 102334155
