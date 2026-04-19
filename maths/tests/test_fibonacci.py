@@ -61,3 +61,9 @@ def test_both_implementations_agree() -> None:
     # Extended range to 50 for more thorough coverage
     for n in range(50):
         assert fibonacci_recursive(n) == fibonacci_iterative(n)
+
+
+def test_fibonacci_large_value() -> None:
+    # Sanity check a known large Fibonacci number (F(20) = 6765)
+    assert fibonacci_iterative(20) == 6765
+    assert fibonacci_recursive(20) == 6765
