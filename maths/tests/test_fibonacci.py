@@ -71,6 +71,7 @@ def test_fibonacci_large_value() -> None:
 
 def test_fibonacci_known_values() -> None:
     # A few additional well-known Fibonacci numbers I like to double-check
-    # F(30) = 832040, F(40) = 102334155
+    # F(30) = 832040, F(40) = 102334155, F(50) = 12586269025
     assert fibonacci_iterative(30) == 832040
     assert fibonacci_iterative(40) == 102334155
+    assert fibonacci_iterative(50) == 12586269025
