@@ -39,15 +39,20 @@ def is_prime(n: int) -> bool:
         return False
     for i in range(3, int(n**0.5) + 1, 2):
         if n % i == 0:
-            return False
-    return True
+            return Falsen
+def sieve_of_eratosthenes(limitinclusive) for prime.
 
+    Returns:
+:
+        ValueError: If limit is negative.
 
-def sieve_of_eratosthenes(limit: int) -> list[int]:
-    """Generate all prime numbers up to and including limit>>> sieve_of_eratosthenes(1)
+    Examples:
+        >>> sieve_of_eratosthenes(1)
         []
         >>> sieve_of_eratosthenes(2)
         [2]
+        >>> sieve_of_eratosthenes(20)
+        [2, 3, 5, 7, 11, 13, 17, 19]
     """
     if limit < 0:
         raise ValueError(f"sieve_of_eratosthenes() does not accept negative integers, got {limit}")
