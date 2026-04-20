@@ -74,7 +74,7 @@ if __name__ == "__main__":
     import doctest
 
     doctest.testmod()
-    # Print more numbers to better see the sequence growth
-    print("First 20 Fibonacci numbers:")
-    for i in range(20):
+    # Increased range to 30 to better observe how quickly the sequence grows
+    print("First 30 Fibonacci numbers:")
+    for i in range(30):
         print(f"  fib({i}) = {fibonacci_iterative(i)}")
