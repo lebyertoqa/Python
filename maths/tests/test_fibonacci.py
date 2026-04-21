@@ -76,3 +76,11 @@ def test_fibonacci_known_values() -> None:
     assert fibonacci_iterative(40) == 102334155
     assert fibonacci_iterative(50) == 12586269025
     assert fibonacci_iterative(60) == 1548008755920
+
+
+def test_fibonacci_sequence_fibonacci_numbers() -> None:
+    # Verify that fibonacci_sequence returns the correct count of numbers
+    # for a given upper bound; useful to confirm off-by-one edge cases.
+    result = fibonacci_sequence(10)
+    assert result == [0, 1, 1, 2, 3, 5, 8]
+    assert all(result[i] == result[i - 1] + result[i - 2] for i in range(2, len(result)))
