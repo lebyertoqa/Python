@@ -76,6 +76,10 @@ def test_fibonacci_known_values() -> None:
     assert fibonacci_iterative(40) == 102334155
     assert fibonacci_iterative(50) == 12586269025
     assert fibonacci_iterative(60) == 1548008755920
+    # Also verify recursive matches for F(30) and F(40); skipping F(50)/F(60)
+    # to avoid slow recursion depth for large values.
+    assert fibonacci_recursive(30) == 832040
+    assert fibonacci_recursive(40) == 102334155
 
 
 def test_fibonacci_sequence_fibonacci_numbers() -> None:
