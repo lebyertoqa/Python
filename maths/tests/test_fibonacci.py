@@ -88,3 +88,10 @@ def test_fibonacci_sequence_fibonacci_numbers() -> None:
     result = fibonacci_sequence(10)
     assert result == [0, 1, 1, 2, 3, 5, 8]
     assert all(result[i] == result[i - 1] + result[i - 2] for i in range(2, len(result)))
+
+
+def test_fibonacci_sequence_property() -> None:
+    # Personal note: I find it helpful to explicitly verify the recurrence
+    # relation holds for a larger sequence, not just a small one.
+    result = fibonacci_sequence(1000)
+    assert all(result[i] == result[i - 1] + result[i - 2] for i in range(2, len(result)))
